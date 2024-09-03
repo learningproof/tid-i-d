@@ -1,7 +1,7 @@
 ---
 title: "The Time-Ordered ID and b32tid Binary Encoding"
 abbrev: "TID-I-D"
-docname: tid-i-d
+docname: draft-goldman-tid-latest
 date:
 category: info
 ipr: trust200902
