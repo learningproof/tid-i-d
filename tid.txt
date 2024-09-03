@@ -1,0 +1,280 @@
+
+
+
+
+Multiformats (proposed)                                       A. Goldman
+Internet-Draft                                                 3box Labs
+Intended status: Informational                              J. Caballero
+Expires: 7 March 2025                                   learningProof UG
+                                                        3 September 2024
+
+
+             The Time-Ordered ID and b32tid Binary Encoding
+                                tid-i-d
+
+Abstract
+
+   Developed for use in a high-bandwidth distributed social networking
+   context, the TID is essentially a highly-compact UUIDv6 variant that
+   optimizes for a few specific properties (most notably being sortable
+   both bytewise and lexically) and fits into the space-efficient int64
+   type of languages that support it.  It uses a bespoke base-32
+   encoding alphabet rather than the similar base32hex encoding, which
+   mandates a final padding character.
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   Status information for this document may be found at
+   https://datatracker.ietf.org/doc/tid-i/.
+
+   Discussion of this document takes place on the Multiformats
+   (proposed) Group mailing list (mailto:multiformats@ietfa.amsl.com).
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/AaronGoldman/tid.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+
+
+
+Goldman & Caballero       Expires 7 March 2025                  [Page 1]
+
+Internet-Draft                   TID-I-D                  September 2024
+
+
+   This Internet-Draft will expire on 7 March 2025.
+
+Copyright Notice
+
+   Copyright (c) 2024 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Timestamp Component . . . . . . . . . . . . . . . . . . . . .   3
+   3.  Node Identifier Component . . . . . . . . . . . . . . . . . .   3
+   4.  Conventions and Definitions . . . . . . . . . . . . . . . . .   4
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .   4
+   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   4
+   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   4
+     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   4
+     7.2.  Informative References  . . . . . . . . . . . . . . . . .   5
+   Appendix A.  Acknowledgments  . . . . . . . . . . . . . . . . . .   5
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   5
+
+1.  Introduction
+
+   The TID is essentially a UUIDv6 variant that optimizes for a few
+   specific properties: 1. sortable both bytewise and lexically when
+   encoded with a base32 variant (also specified in this document); 2.
+   collision-resistant up to a 1024 independent parallel timestamping
+   services, with this set of 1024 broken up in 3 contiguous namespace
+   to support various use-cases described below 3. based on microseconds
+   since unix epoch to simplify translation to other timestamp formats;
+   4. fits in an int64 and 5. works well across the type systems or most
+   major compiled languages in use today for application-level
+   development.
+
+   Many minor choices, such as the choice of code points in the
+   alternate base32 encoding and the signed nature of the timestamp
+   bytespace are primarily informed by cross-language ergonomics.
+
+   The 32 code points chosen to encode from binary, in order, are:
+
+
+
+
+
+
+Goldman & Caballero       Expires 7 March 2025                  [Page 2]
+
+Internet-Draft                   TID-I-D                  September 2024
+
+
+   value               1111111111222222222233
+             01234567890123456789012345678901
+   encoding  234567abcdefghijklmnopqrstuvwxyz
+
+   This differs from the canonical base32hex defined in [RFC4648]
+   encoding in two ways.  Firstly, it is not padded (more on this
+   below).  Secondly, it omits 4 different characters from the 36
+   hexadecimals (1, 8, 9, and 0 rather than w x y and z) to minimize
+   visual human error discerning 1s and Is, 0s and Os.
+
+2.  Timestamp Component
+
+   The form of timestamp used to generate a TID is the number
+   microseconds since the Unix epoch (1970-01-01T00:00:00+00:00), i.e.
+   an [RFC5102] dateTimeMilliseconds.  In cases where a timestamping
+   service may be returning timestamps faster than once every
+   millisecond, uniqueness should be favored over millisecond accuracy;
+   i.e., the ID generator should return the current millisecond since
+   epoch OR the last millisecond returned plus 1, whichever is greater.
+
+   Note that the range of times that fit in the int54 is actually
+   purposefully limited to 2^53 by dropping the negative half of the
+   range.  This is to avoid a quirk of the Java type system that
+   converts 54-byte integers to floats.  The following tables shows the
+   min, zero, and max values of the integer range of milliseconds,
+   expressed in the 11-codepoint base32tid encoding:
+
+   s222-222-2222 1684-07-28T00:12:25.259008 min  i64
+   2222-222-2222 1970-01-01T00:00:00.000000 zero i64
+   bzzz-zzz-zzzz 2255-06-05T23:47:34.740992 max  i64
+
+3.  Node Identifier Component
+
+   The node identifier, by analogy to the equivalent element in an
+   [RFC9562] UUIDv6, is a spatially-unique identifier, but from much
+   smaller space (10 bits, as opposed to UUIDv6's 48 bits).  It is
+   divided into three contiguous ranges.  The first 32 values (0-31,
+   i.e. "20" - "2z" base-encoded) are reserved for "best effort" TIDs.
+   The bulk of the range, (32-991, i.e. "30" - "yz" base-encoded) is
+   reserved for context-dependent use.  The remaining 32 entries
+   (992-1023, i.e. "z0" - "zz" base-encoded) are reserved for globally
+   unique TIDs.
+
+   "Best effort" node identifiers can be generated without coordination
+   but may collide.
+
+
+
+
+
+
+Goldman & Caballero       Expires 7 March 2025                  [Page 3]
+
+Internet-Draft                   TID-I-D                  September 2024
+
+
+   Context-dependent should be use in the context of a specific
+   application where they can be derived stably from application
+   context.  The application developer should take steps to ensure the
+   that in any given time range, no node identifiers are in simultaneous
+   use by two different actors.  No process is specified for
+   coordinating leases of node identifiers to actors.
+
+   Globally-unique node identifiers should only be used after being
+   registered globally.  At time of writing, there is only one public
+   TimeID service operating.
+
+      +========+============+============+===============+=========+
+      | NodeID | URL        | public key | from          | to      |
+      +========+============+============+===============+=========+
+      | z0     | ccn.bz/tid | n/a        | 2222-222-2222 | ongoing |
+      +--------+------------+------------+---------------+---------+
+
+                                 Table 1
+
+4.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+5.  Security Considerations
+
+   TODO Security
+
+6.  IANA Considerations
+
+   This document has no IANA actions.
+
+7.  References
+
+7.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+
+
+
+Goldman & Caballero       Expires 7 March 2025                  [Page 4]
+
+Internet-Draft                   TID-I-D                  September 2024
+
+
+7.2.  Informative References
+
+   [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
+              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
+              <https://www.rfc-editor.org/rfc/rfc4648>.
+
+   [RFC9562]  Davis, K., Peabody, B., and P. Leach, "Universally Unique
+              IDentifiers (UUIDs)", RFC 9562, DOI 10.17487/RFC9562, May
+              2024, <https://www.rfc-editor.org/rfc/rfc9562>.
+
+   [RFC5102]  Quittek, J., Bryant, S., Claise, B., Aitken, P., and J.
+              Meyer, "Information Model for IP Flow Information Export",
+              RFC 5102, DOI 10.17487/RFC5102, January 2008,
+              <https://www.rfc-editor.org/rfc/rfc5102>.
+
+Appendix A.  Acknowledgments
+
+   TODO acknowledge.
+
+Authors' Addresses
+
+   A. Goldman
+   3box Labs
+   URI:   3boxlabs.com
+
+
+   J. Caballero
+   learningProof UG
+   URI:   learningproof.xyz
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Goldman & Caballero       Expires 7 March 2025                  [Page 5]
