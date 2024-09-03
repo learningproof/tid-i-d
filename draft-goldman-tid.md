@@ -201,10 +201,15 @@ well as computed a TID for the test vector given for UUIDv6 in {{?RFC9562}},
 i.e. the 60-bit timestamp: `0x1EC9414C232AB00` (138648505420000000), i.e.
 Tuesday, February 22, 2022 2:22:22.000000 PM GMT-05:00.
 
-| Timestamp                  | milliseconds  | tid           | UUIDv6 |
-|----------------------------|---------------|---------------|--------|
-| 2024-07-19T09:40:46.480310 | 1721382046481 | 3kxn-lhr-3gxq | todo   |
-| 2022-02-02T07:22:22.000000 | 1643786542000 | todo          | todo   |
+| Timestamp                  | milliseconds  |
+|----------------------------|---------------|
+| 2024-07-19T09:40:46.480310 | 1721382046481 |
+| 2022-02-02T07:22:22.000000 | 1645557742000 |
+
+| milliseconds  | tid           | UUIDv6                               |
+|---------------|---------------|--------------------------------------|
+| 1721382046481 | 3kxn-lhr-3gxq | todo                                 |
+| 1645557742000 | todo          | 1EC9414C-232A-6B00-B3C8-9F6BDECED846 |
 
 # Acknowledgments
 
