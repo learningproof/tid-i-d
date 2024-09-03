@@ -5,7 +5,7 @@ docname: draft-goldman-tid-latest
 date:
 category: info
 ipr: trust200902
-area: ART
+# area: ART
 wg: Multiformats (proposed)
 submissiontype: IRTF
 v: 3
@@ -16,9 +16,9 @@ keyword:
  - distributed systems
 pi: [toc, tocindent, sort refs, symrefs, strict, compact, inline]
 venue:
-  group: Multiformats (proposed)
-  github: AaronGoldman/tid
-  mail: multiformats@ietfa.amsl.com
+#  group: Multiformats (proposed)
+  github: "learningproof/tid-i-d"
+#  mail: multiformats@ietfa.amsl.com
 author:
  - name: A. Goldman
    org: 3box Labs
