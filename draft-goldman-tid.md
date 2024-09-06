@@ -75,10 +75,9 @@ encoding  234567abcdefghijklmnopqrstuvwxyz
 ~~~~
 
 This differs from the canonical `base32` encoding defined in {{?RFC4648}} in two
-ways: firstly, the letters are lowercase (and thus domain-safe), and secondly,
-the letters and numbers are inverted in the mapping sequence, such that bytewise
-ordering of binary TIDs and lexical sorting of base-encoded TIDs will always
-achieve the same ordering.
+ways: firstly, the letters are lowercase, and secondly, the letters and numbers
+are inverted in the mapping sequence, such that bytewise ordering of binary TIDs
+and lexical sorting of base-encoded TIDs will always achieve the same ordering.
 
 ~~~~ bash
 value                1111111111222222222233
@@ -90,18 +89,18 @@ base32     ABCDEFGHIJKLMNOPQRSTUVWXYZ234567
 # Timestamp Component
 
 The form of timestamp used to generate a TID is the number microseconds since
-the Unix epoch (1970-01-01T00:00:00+00:00), i.e. an {{?RFC5102}}
-`dateTimeMilliseconds`. In cases where a timestamping service may be returning
-timestamps faster than once every millisecond, uniqueness should be favored over
-millisecond accuracy; i.e., the ID generator should return the current
-millisecond since epoch OR the last millisecond returned plus 1, whichever is
-greater.
+the Unix epoch (1970-01-01T00:00:00+00:00), i.e. with three more digits than an
+{{?RFC5102}} `dateTimeMilliseconds`. In cases where a timestamping service may
+be returning timestamps faster than 1000 times every millisecond, uniqueness
+should be favored over microsecond accuracy; i.e., the ID generator should
+return the current microsecond since epoch OR the last microsecond returned plus
+1, whichever is greater.
 
 Note that the range of times that fit in the `int54` is actually
 purposefully limited to 2^53 by dropping the negative half of the range. This is
 to avoid a quirk of the Java type system that converts 54-byte integers to
 floats. The following tables shows the min, zero, and max values of the integer
-range of milliseconds, expressed in the 11-codepoint `base32tid` encoding:
+range of microseconds, expressed in the 11-codepoint `base32tid` encoding:
 
 ~~~~ bash
 s222-222-2222 1684-07-28T00:12:25.259008 min  i64
@@ -209,7 +208,7 @@ Tuesday, February 22, 2022 2:22:22.000000 PM GMT-05:00.
 | milliseconds  | tid           | UUIDv6                               |
 |---------------|---------------|--------------------------------------|
 | 1721382046481 | 3kxn-lhr-3gxq | todo                                 |
-| 1645557742000 | todo          | 1EC9414C-232A-6B00-B3C8-9F6BDECED846 |
+| 1645557742000 | 3iso-34e-qpw2 | 1EC9414C-232A-6B00-B3C8-9F6BDECED846 |
 
 # Acknowledgments
 
