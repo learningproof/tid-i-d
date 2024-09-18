@@ -88,7 +88,19 @@ base32tid  234567abcdefghijklmnopqrstuvwxyz
 base32     ABCDEFGHIJKLMNOPQRSTUVWXYZ234567
 ~~~~
 
-# TID computation
+# Composing TIDs
+
+The canonical form of a TID is a 64-byte string which takes this form:
+
+```bash
+     0                   1                   2                   3
+     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    |                         signed_microseconds_since_1970        
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                                                |   clock_id        |
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+```
 
 ## Timestamp Component
 
@@ -101,15 +113,15 @@ return the current microsecond since epoch OR the last microsecond returned plus
 1, whichever is greater.
 
 The effective range of TIDs is limited by the compaction into `int64` form and
-with 10 bytes of its range being used to encode the nodeId segment; for reasons
-that will be explained below, it is further limited by one byte to avoid some
-translation problems with the targeted encodings and type systems, leaving 53
-bytes of signed space for a subset of unix microsecond timestamps. Effectively,
-this means that the range of microseconds before or after 1970, expressed as a
-signed integer, is not (-2^63+1) to (2^63-1), but (-2^53+1) to (2^53-1). The
-following tables shows the min, zero, and max values of the integer range of
-microseconds, expressed in the 11-codepoint `base32tid` encoding. The additional
-2 codepoints for the nodeId segment, covered below, are omitted for clarity.
+the 10 bytes used to encode the nodeId segment; for reasons that will be
+explained below, it is further limited by one byte to avoid some translation
+problems with the targeted encodings and type systems, leaving 53 bytes of
+signed space for a subset of unix microsecond timestamps. Effectively, this
+means that the range of microseconds before or after 1970, expressed as a signed
+integer, is not (-2^63+1) to (2^63-1), but (-2^53+1) to (2^53-1). The following
+tables shows the min, zero, and max values of the integer range of microseconds,
+expressed in the 11-codepoint `base32tid` encoding. The additional 2 codepoints
+for the nodeId segment, explained below, are omitted for clarity.
 
 |tid          |microseconds     |valid?            |ISO timestamp      |
 |---          |---              |---               |---                |
