@@ -92,7 +92,7 @@ base32     ABCDEFGHIJKLMNOPQRSTUVWXYZ234567
 
 The canonical form of a TID is a 64-byte string which takes this form:
 
-```bash
+~~~~ bash
      0                   1                   2                   3
      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -100,7 +100,7 @@ The canonical form of a TID is a 64-byte string which takes this form:
     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
                                                 |   clock_id        |
     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-```
+~~~~
 
 ## Timestamp Component
 
