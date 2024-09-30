@@ -1,5 +1,5 @@
 ---
-title: "The Time-Ordered ID and b32tid Binary Encoding"
+title: "The Time-Ordered ID and base32lex Binary Encoding"
 abbrev: "TID-I-D"
 docname: draft-goldman-tid-latest
 date:
