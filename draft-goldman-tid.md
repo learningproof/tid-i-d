@@ -66,7 +66,7 @@ Many minor choices, such as the choice of code points in the alternate base32
 encoding and the signed nature of the timestamp bytespace are primarily informed
 by cross-language ergonomics.
 
-## Base32tid encoding
+## Base32lex encoding
 
 The 32 code points chosen to encode from binary, in order, are:
 
@@ -84,7 +84,7 @@ and lexical sorting of base-encoded TIDs will always achieve the same ordering.
 ~~~~ bash
 value                1111111111222222222233
            01234567890123456789012345678901
-base32tid  234567abcdefghijklmnopqrstuvwxyz
+base32lex  234567abcdefghijklmnopqrstuvwxyz
 base32     ABCDEFGHIJKLMNOPQRSTUVWXYZ234567
 ~~~~
 
@@ -120,7 +120,7 @@ signed space for a subset of unix microsecond timestamps. Effectively, this
 means that the range of microseconds before or after 1970, expressed as a signed
 integer, is not (-2^63+1) to (2^63-1), but (-2^53+1) to (2^53-1). The following
 tables shows the min, zero, and max values of the integer range of microseconds,
-expressed in the 11-codepoint `base32tid` encoding. The additional 2 codepoints
+expressed in the 11-codepoint `base32lex` encoding. The additional 2 codepoints
 for the nodeId segment, explained below, are omitted for clarity.
 
 |tid          |microseconds     |valid?            |ISO timestamp      |
