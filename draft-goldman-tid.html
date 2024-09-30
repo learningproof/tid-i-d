@@ -1037,7 +1037,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Goldman &amp; Caballero</td>
-<td class="center">Expires 22 March 2025</td>
+<td class="center">Expires 3 April 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1050,12 +1050,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-goldman-tid-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-09-18" class="published">18 September 2024</time>
+<time datetime="2024-09-30" class="published">30 September 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-03-22">22 March 2025</time></dd>
+<dd class="expires"><time datetime="2025-04-03">3 April 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1108,7 +1108,7 @@ rather than the similar base32hex encoding.<a href="#section-abstract-1" class="
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 22 March 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1138,7 +1138,7 @@ rather than the similar base32hex encoding.<a href="#section-abstract-1" class="
             <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
-                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-base32tid-encoding" class="internal xref">Base32tid encoding</a></p>
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-base32lex-encoding" class="internal xref">Base32lex encoding</a></p>
 </li>
             </ul>
 </li>
@@ -1221,10 +1221,10 @@ today for application-level development.<a href="#section-1-2.5.1" class="pilcro
 <p id="section-1-3">Many minor choices, such as the choice of code points in the alternate base32
 encoding and the signed nature of the timestamp bytespace are primarily informed
 by cross-language ergonomics.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<div id="base32tid-encoding">
+<div id="base32lex-encoding">
 <section id="section-1.1">
-        <h3 id="name-base32tid-encoding">
-<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-base32tid-encoding" class="section-name selfRef">Base32tid encoding</a>
+        <h3 id="name-base32lex-encoding">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-base32lex-encoding" class="section-name selfRef">Base32lex encoding</a>
         </h3>
 <p id="section-1.1-1">The 32 code points chosen to encode from binary, in order, are:<a href="#section-1.1-1" class="pilcrow">¶</a></p>
 <div class="lang-bash sourcecode" id="section-1.1-2">
@@ -1242,7 +1242,7 @@ and lexical sorting of base-encoded TIDs will always achieve the same ordering.<
 <pre>
 value                1111111111222222222233
            01234567890123456789012345678901
-base32tid  234567abcdefghijklmnopqrstuvwxyz
+base32lex  234567abcdefghijklmnopqrstuvwxyz
 base32     ABCDEFGHIJKLMNOPQRSTUVWXYZ234567
 </pre><a href="#section-1.1-4" class="pilcrow">¶</a>
 </div>
@@ -1287,7 +1287,7 @@ signed space for a subset of unix microsecond timestamps. Effectively, this
 means that the range of microseconds before or after 1970, expressed as a signed
 integer, is not (-2^63+1) to (2^63-1), but (-2^53+1) to (2^53-1). The following
 tables shows the min, zero, and max values of the integer range of microseconds,
-expressed in the 11-codepoint <code>base32tid</code> encoding. The additional 2 codepoints
+expressed in the 11-codepoint <code>base32lex</code> encoding. The additional 2 codepoints
 for the nodeId segment, explained below, are omitted for clarity.<a href="#section-2.1-2" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
           <caption><a href="#table-1" class="selfRef">Table 1</a></caption>

@@ -5,8 +5,8 @@
 Multiformats (proposed)                                       A. Goldman
 Internet-Draft                                                 3box Labs
 Intended status: Informational                              J. Caballero
-Expires: 22 March 2025                                  learningProof UG
-                                                       18 September 2024
+Expires: 3 April 2025                                   learningProof UG
+                                                       30 September 2024
 
 
              The Time-Ordered ID and b32tid Binary Encoding
@@ -47,7 +47,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 March 2025.
+   This Internet-Draft will expire on 3 April 2025.
 
 Copyright Notice
 
@@ -63,7 +63,7 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-     1.1.  Base32tid encoding
+     1.1.  Base32lex encoding
    2.  Composing TIDs
      2.1.  Timestamp Component
      2.2.  Node Identifier Component
@@ -103,7 +103,7 @@ Table of Contents
    alternate base32 encoding and the signed nature of the timestamp
    bytespace are primarily informed by cross-language ergonomics.
 
-1.1.  Base32tid encoding
+1.1.  Base32lex encoding
 
    The 32 code points chosen to encode from binary, in order, are:
 
@@ -119,7 +119,7 @@ Table of Contents
 
    value                1111111111222222222233
               01234567890123456789012345678901
-   base32tid  234567abcdefghijklmnopqrstuvwxyz
+   base32lex  234567abcdefghijklmnopqrstuvwxyz
    base32     ABCDEFGHIJKLMNOPQRSTUVWXYZ234567
 
 2.  Composing TIDs
@@ -155,7 +155,7 @@ Table of Contents
    microseconds before or after 1970, expressed as a signed integer, is
    not (-2^63+1) to (2^63-1), but (-2^53+1) to (2^53-1).  The following
    tables shows the min, zero, and max values of the integer range of
-   microseconds, expressed in the 11-codepoint base32tid encoding.  The
+   microseconds, expressed in the 11-codepoint base32lex encoding.  The
    additional 2 codepoints for the nodeId segment, explained below, are
    omitted for clarity.
 
