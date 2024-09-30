@@ -9,7 +9,7 @@ Expires: 3 April 2025                                   learningProof UG
                                                        30 September 2024
 
 
-             The Time-Ordered ID and b32tid Binary Encoding
+           The Time-Ordered ID and base32lex Binary Encoding
                         draft-goldman-tid-latest
 
 Abstract
